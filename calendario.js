@@ -21,12 +21,8 @@ const FINE_CALENDARIO = "2027-03-31";
 const WHATSAPP = "393501795131";
 
 const EVENTI = [
-  // ESEMPI SEGNAPOSTO: sostituiscili con le date vere
-  { data: "2026-11-21", ora: "Orario da definire", titolo: "Pittura creativa", tipo: "Laboratorio", luogo: "STANZA · Isola di Capo Rizzuto", descrizione: "Colori, tele e un tavolo condiviso. Non serve saper dipingere.", daConfermare: true },
-  { data: "2026-12-12", ora: "Orario da definire", titolo: "Candele", tipo: "Laboratorio", luogo: "STANZA · Isola di Capo Rizzuto", descrizione: "Cere, profumi e forme: una candela da portare a casa.", daConfermare: true },
-  { data: "2027-01-23", ora: "Orario da definire", titolo: "Cucito creativo", tipo: "Laboratorio", luogo: "STANZA · Isola di Capo Rizzuto", descrizione: "Un progetto semplice da costruire insieme, anche partendo da zero.", daConfermare: true },
-  { data: "2027-02-13", ora: "Orario da definire", titolo: "Serata a STANZA", tipo: "Incontro", luogo: "STANZA · Isola di Capo Rizzuto", descrizione: "Giochi, chiacchiere e persone nuove intorno al tavolo.", daConfermare: true },
-  { data: "2027-03-20", ora: "Orario da definire", titolo: "Pittura creativa", tipo: "Laboratorio", luogo: "STANZA · Isola di Capo Rizzuto", descrizione: "Colori, tele e un tavolo condiviso. Non serve saper dipingere.", daConfermare: true },
+  // Inserisci qui le date vere. Esempio (togli le due barre // per attivarlo):
+  // { data: "2026-11-21", ora: "17:00 – 19:30", titolo: "Pittura creativa", tipo: "Laboratorio", luogo: "STANZA · Isola di Capo Rizzuto", descrizione: "Colori, tele e un tavolo condiviso. Non serve saper dipingere.", prezzo: "25 €" },
 ];
 
 /* --------- da qui in giù non serve modificare nulla --------- */
@@ -69,7 +65,7 @@ const EVENTI = [
 
   box.innerHTML = mesi.map(m => `<div class="cal-month" data-mese="${m.key}">
       <h3 class="cal-month-title">${m.nome} <span>${m.anno}</span></h3>
-      ${m.eventi.length ? m.eventi.map(card).join("") : '<p class="cal-empty">Nuove date in arrivo.</p>'}
+      ${m.eventi.length ? m.eventi.map(card).join("") : `<p class="cal-empty">Date in arrivo. <a href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Ciao Kalyta, vorrei sapere le prossime date di " + m.nome.toLowerCase() + ".")}" target="_blank" rel="noopener">Chiedici su WhatsApp →</a></p>`}
     </div>`).join("");
 
   if (filtri) {
