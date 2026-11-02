@@ -152,16 +152,19 @@ const RISERVA = [
       <form class="book-wa">
         <p class="book-step">Per iscriverti</p>
         <label>Nome<input name="nome" required autocomplete="name" placeholder="Il tuo nome"></label>
+        <label>Email<input name="email" type="email" required autocomplete="email" inputmode="email" placeholder="nome@esempio.it"></label>
         <label>Quante persone?<input name="persone" type="number" min="1" max="20" value="1" required inputmode="numeric"></label>
         <label>Note <span>(facoltative)</span><input name="note" placeholder="Es. prima volta, ho una Kalyta Card n. 012…"></label>
         <input name="sito_web" tabindex="-1" autocomplete="off" aria-hidden="true" class="book-hp">
+        <label class="book-check"><input type="checkbox" name="condizioni" required> <span>Ho letto le <a href="/condizioni/" target="_blank" rel="noopener">condizioni di partecipazione</a>: se non disdico almeno 24 ore prima, il contributo versato non viene restituito.</span></label>
         <button type="submit" class="book-send">Invia su WhatsApp →</button>
         <p class="book-info">Si apre WhatsApp con il messaggio già scritto: lo invii tu. Ti confermiamo la partecipazione in chat.</p>
-        ${REGISTRO_ISCRIZIONI ? '<p class="book-info book-privacy">Nome, numero di persone e note vengono registrati da Kalyta APS solo per organizzare l\'appuntamento. <a href="/privacy/">Privacy</a></p>' : ""}
+        ${REGISTRO_ISCRIZIONI ? '<p class="book-info book-privacy">Nome, email, numero di persone e note vengono registrati da Kalyta APS solo per organizzare l\'appuntamento. <a href="/privacy/">Privacy</a></p>' : ""}
       </form>
       <div class="book-form-link">
         <a class="book-send" target="_blank" rel="noopener">Compila il modulo di iscrizione →</a>
         <a class="book-ask" target="_blank" rel="noopener">Hai una domanda? Scrivici su WhatsApp</a>
+        <p class="book-info">Valgono le <a href="/condizioni/" target="_blank" rel="noopener">condizioni di partecipazione</a>: se non disdici almeno 24 ore prima, il contributo versato non viene restituito.</p>
       </div>
     </div>`;
   if (typeof dlg.showModal === "function") document.body.appendChild(dlg);
@@ -183,11 +186,11 @@ const RISERVA = [
     const f = new FormData(ev.target);
     if (!scelto) return;
     const righe = [`Ciao Kalyta, vorrei iscrivermi a "${scelto.titolo}" (${quandoTesto(scelto)}).`, "",
-      `Nome: ${f.get("nome")}`, `Persone: ${f.get("persone")}`];
+      `Nome: ${f.get("nome")}`, `Email: ${f.get("email")}`, `Persone: ${f.get("persone")}`, "", "Ho letto le condizioni di partecipazione (disdetta almeno 24 ore prima)."];
     if (String(f.get("note") || "").trim()) righe.push(`Note: ${f.get("note")}`);
     registra({
       data: `${scelto.d.getFullYear()}-${String(scelto.d.getMonth() + 1).padStart(2, "0")}-${String(scelto.d.getDate()).padStart(2, "0")}`,
-      laboratorio: scelto.titolo, nome: f.get("nome"), persone: f.get("persone"), note: f.get("note") || "", sito_web: f.get("sito_web") || ""
+      laboratorio: scelto.titolo, nome: f.get("nome"), email: f.get("email"), telefono: f.get("email"), persone: f.get("persone"), note: f.get("note") || "", sito_web: f.get("sito_web") || ""
     });
     const url = wa(righe.join("\n"));
     const w = window.open(url, "_blank"); if (w) w.opener = null; else location.href = url;
