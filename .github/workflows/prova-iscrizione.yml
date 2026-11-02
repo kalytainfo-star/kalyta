@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          curl -sSL -X POST "https://script.google.com/macros/s/AKfycby48E9MwZwxuNJ_8tEdBQHzuyc3FK25Vff1x6KtIV5sK7hZP0T0bpAI1noSyBcW1GL3/exec" \
+          curl -sSL -o /dev/null "https://script.google.com/macros/s/AKfycby48E9MwZwxuNJ_8tEdBQHzuyc3FK25Vff1x6KtIV5sK7hZP0T0bpAI1noSyBcW1GL3/exec" \
             --data-urlencode "data=2026-11-05" --data-urlencode "laboratorio=Candele" \
             --data-urlencode "nome=PROVA SITO (da cancellare)" --data-urlencode "persone=2" \
             --data-urlencode "note=riga di prova" -w "\nHTTP %{http_code}\n"
