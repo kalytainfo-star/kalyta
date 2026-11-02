@@ -40,10 +40,10 @@ jobs:
         run: |
           mkdir sito
           cp index.html calendario.js main.js style.css private.css private.js robots.txt sitemap.xml .htaccess sito/
-          cp -r private calendario assets assets-private sito/
+          cp -r private calendario privacy assets assets-private sito/
           # versione nei link a CSS e JS: il browser scarica sempre i file nuovi
           V=$(echo "$GITHUB_SHA" | cut -c1-8)
-          sed -i "s/?v=dev/?v=$V/g" sito/index.html sito/private/index.html sito/calendario/index.html
+          sed -i "s/?v=dev/?v=$V/g" sito/index.html sito/private/index.html sito/calendario/index.html sito/privacy/index.html
           find sito -type f | sort
 
       - name: Carica su IONOS

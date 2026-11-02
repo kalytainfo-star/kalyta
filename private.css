@@ -38,3 +38,5 @@ input::placeholder,textarea::placeholder{color:rgba(255,255,255,.55)}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 footer img{height:auto!important;object-fit:contain}
+footer{flex-wrap:wrap;gap:24px 40px}
+.foot-legal{flex-basis:100%;margin:10px 0 0;padding-top:20px;border-top:1px solid #fffdf726;font-size:12px;line-height:1.6;opacity:.65}

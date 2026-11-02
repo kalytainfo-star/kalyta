@@ -157,7 +157,7 @@ const RISERVA = [
         <input name="sito_web" tabindex="-1" autocomplete="off" aria-hidden="true" class="book-hp">
         <button type="submit" class="book-send">Invia su WhatsApp →</button>
         <p class="book-info">Si apre WhatsApp con il messaggio già scritto: lo invii tu. Ti confermiamo la partecipazione in chat.</p>
-        ${REGISTRO_ISCRIZIONI ? '<p class="book-info book-privacy">Nome, numero di persone e note vengono registrati da Kalyta APS solo per organizzare l\'appuntamento.</p>' : ""}
+        ${REGISTRO_ISCRIZIONI ? '<p class="book-info book-privacy">Nome, numero di persone e note vengono registrati da Kalyta APS solo per organizzare l\'appuntamento. <a href="/privacy/">Privacy</a></p>' : ""}
       </form>
       <div class="book-form-link">
         <a class="book-send" target="_blank" rel="noopener">Compila il modulo di iscrizione →</a>

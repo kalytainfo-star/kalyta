@@ -288,3 +288,17 @@ footer img{height:auto!important;object-fit:contain}
 }
 .book-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .book-privacy{margin-top:-6px!important}
+footer{flex-wrap:wrap;gap:24px 40px}
+.foot-legal{flex-basis:100%;margin:10px 0 0;padding-top:20px;border-top:1px solid #fffdf726;font-size:12px;line-height:1.6;opacity:.65}
+.stanza-map{display:inline-block;margin-top:10px;font-weight:700}
+.origin p a:not(.button){color:var(--sand)}
+
+/* Pagina privacy */
+.legal{max-width:820px;background:var(--cream)}
+.legal h1{font-size:clamp(40px,5vw,64px);line-height:1;letter-spacing:-.04em;margin:18px 0 10px}
+.legal h2{font-size:24px;letter-spacing:-.02em;margin:40px 0 10px}
+.legal p,.legal li{font-size:17px;line-height:1.6}
+.legal ul{padding-left:20px}
+.legal li{margin-bottom:8px}
+.legal a{color:var(--teal);font-weight:700}
+.legal-updated{opacity:.65;font-size:14px!important}
