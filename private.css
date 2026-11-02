@@ -37,3 +37,4 @@ input::placeholder,textarea::placeholder{color:rgba(255,255,255,.55)}
 .manifesto{height:60vh;min-height:440px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+footer img{height:auto!important;object-fit:contain}

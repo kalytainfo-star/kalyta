@@ -99,3 +99,67 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sand);outline-offse
 .cal-event.is-full .cal-body h3,.cal-event.is-full .cal-date{opacity:.55}
 .cal-book-full{background:transparent;color:var(--ink);border:1px solid var(--ink)}
 .cal-meta .cal-tag-full{background:#e8c4bd}
+
+/* Prossimo appuntamento */
+.next-event{background:var(--sand);padding:22px max(7vw,40px);display:grid;grid-template-columns:auto 1fr auto;gap:12px 40px;align-items:center}
+.next-event[hidden]{display:none}
+.next-event .section-label{margin:0}
+.next-what{margin:0;font-size:22px;letter-spacing:-.02em}
+.next-what span{display:inline-block;margin-left:10px;font-size:17px;opacity:.75}
+.next-links{display:flex;align-items:center;gap:20px}
+.next-all{font-weight:700;font-size:14px}
+
+/* Azioni evento */
+.cal-actions{align-self:center;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.cal-ics{display:inline-block;margin-top:8px;font-size:13px;font-weight:700;opacity:.75}
+.cal-ics:hover{opacity:1}
+
+/* Mindfulness */
+.cal-interest{margin-top:40px;background:var(--cream);padding:34px 36px;display:grid;grid-template-columns:1fr auto;gap:6px 40px;align-items:center}
+.cal-interest .section-label{grid-column:1/-1;margin:0}
+.cal-interest h3{font-size:30px;letter-spacing:-.035em;margin:4px 0 0;grid-column:1}
+.cal-interest p:not(.section-label){grid-column:1;margin:0;font-size:17px;line-height:1.45;max-width:620px}
+.cal-interest .cal-book{grid-column:2;grid-row:2/4}
+
+/* Finestra di prenotazione */
+.book-dialog{border:0;padding:0;width:min(460px,calc(100vw - 32px));background:var(--white);color:var(--ink)}
+.book-dialog::backdrop{background:rgba(0,18,25,.6)}
+.book-form{padding:34px 30px 26px;display:grid;gap:14px;position:relative}
+.book-form .section-label{margin:0}
+.book-title{font-size:34px;letter-spacing:-.04em;line-height:1;margin:0}
+.book-when{margin:0 0 6px;font-size:16px;opacity:.75}
+.book-form label{display:grid;gap:6px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.book-form label span{text-transform:none;letter-spacing:0;font-weight:400;opacity:.6}
+.book-form input{font:inherit;font-size:17px;letter-spacing:0;text-transform:none;font-weight:400;padding:11px 12px;border:1px solid #00121966;background:#fff;color:var(--ink)}
+.book-form input:focus-visible{outline:2px solid var(--teal);outline-offset:1px}
+.book-send{font:inherit;font-weight:700;font-size:16px;background:var(--ink);color:var(--white);border:0;padding:15px 18px;cursor:pointer;margin-top:6px}
+.book-close{position:absolute;top:10px;right:12px;background:none;border:0;font-size:30px;line-height:1;cursor:pointer;color:var(--ink);padding:4px 8px}
+.book-info{font-size:13px;opacity:.7;margin:0}
+
+@media(max-width:800px){
+.next-event{grid-template-columns:1fr;padding:22px;gap:8px}
+.next-what span{display:block;margin:4px 0 0}
+.next-links{margin-top:6px}
+.cal-actions{grid-column:2;align-items:flex-start}
+.cal-interest{grid-template-columns:1fr;padding:28px 22px}
+.cal-interest .cal-book{grid-column:1;grid-row:auto;justify-self:start;margin-top:12px}
+}
+
+/* Scheda evento e prenotazione */
+.cal-price{font-weight:700;font-size:17px!important;margin-top:4px!important}
+.cal-price span{font-weight:400;opacity:.7;font-size:15px}
+.book-dialog{max-height:calc(100vh - 32px)}
+.book-form{max-height:calc(100vh - 32px);overflow:auto}
+.book-desc{margin:0;font-size:17px;line-height:1.5}
+.book-details dl{margin:14px 0 4px;border-top:1px solid #00121926}
+.book-details dl div{display:grid;grid-template-columns:90px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid #00121926}
+.book-details dt{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding-top:3px}
+.book-details dd{margin:0;font-size:16px}
+.book-details dl:empty,.book-details dl:not(:has(div)){display:none}
+.book-wa{display:grid;gap:14px}
+.book-wa[hidden],.book-form-link[hidden]{display:none}
+.book-step{margin:10px 0 0;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.book-form-link{display:grid;gap:14px;margin-top:8px}
+.book-form-link .book-send{text-align:center;text-decoration:none}
+.book-ask{font-size:14px;font-weight:700;text-align:center}
+footer img{height:auto!important;object-fit:contain}
