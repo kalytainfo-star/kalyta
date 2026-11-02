@@ -66,6 +66,15 @@ const RISERVA = [
     return righe;
   }
 
+  // "30" -> "30 €", "0" -> "Gratuito", vuoto per i soci -> "Gratuito per i soci"
+  function contributo(v, accesso) {
+    v = String(v || "").trim();
+    const soci = /soci/i.test(accesso || "");
+    if (/^0+([.,]0+)?$/.test(v) || (!v && soci)) return soci ? "Gratuito per i soci" : "Gratuito";
+    if (/^\d+([.,]\d+)?$/.test(v)) return v + " €";
+    return v;
+  }
+
   function daFoglio(csv) {
     const righe = leggiCSV(csv).filter(r => r.some(c => c.trim()));
     if (!righe.length) return [];
@@ -79,7 +88,8 @@ const RISERVA = [
       tipo: prendi(r, "tipo"),
       luogo: prendi(r, "luogo"),
       descrizione: prendi(r, "descrizione"),
-      prezzo: prendi(r, "prezzo"),
+      prezzo: contributo(prendi(r, "contributo") || prendi(r, "prezzo"), prendi(r, "accesso")),
+      soci: /soci/i.test(prendi(r, "accesso")),
       stato: prendi(r, "stato").toLowerCase(),
       durata: prendi(r, "durata"),
       include: prendi(r, "cosa include"),
@@ -111,15 +121,15 @@ const RISERVA = [
       : e.stato === "ultimi posti" ? '<em class="cal-tag">Ultimi posti</em>' : "";
     const azione = completo
       ? `<a class="cal-book cal-book-full" href="${wa(`Ciao Kalyta, "${e.titolo}" del ${quando} è al completo: potete avvisarmi per la prossima data?`)}" target="_blank" rel="noopener">Avvisami →</a>`
-      : `<a class="cal-book" data-evento="${i}" href="${wa(`Ciao Kalyta, vorrei prenotare un posto per "${e.titolo}" del ${quando}.`)}" target="_blank" rel="noopener">Scopri e prenota →</a>`;
-    return `<article class="cal-event${completo ? " is-full" : ""}">
-      <div class="cal-date"><span>${GIORNI[e.d.getDay()]}</span><strong>${e.d.getDate()}</strong></div>
+      : `<a class="cal-book" data-evento="${i}" href="${wa(`Ciao Kalyta, vorrei partecipare a "${e.titolo}" del ${quando}.`)}" target="_blank" rel="noopener">Scopri e iscriviti →</a>`;
+    return `<article class="cal-event ${classeTipo(e.tipo)}${completo ? " is-full" : ""}">
+      ${dataTile(e)}
       <div class="cal-body">
-        <p class="cal-meta">${esc(e.tipo || "Laboratorio")}${e.ora ? " · " + esc(e.ora) : ""} ${badge}</p>
+        <p class="cal-meta">${esc(e.tipo || "Laboratorio")}${e.ora ? " · " + esc(e.ora) : ""} ${badge}${e.soci ? '<em class="cal-tag cal-tag-soci">Soci Kalyta</em>' : ""}</p>
         <h3>${esc(e.titolo)}</h3>
         ${e.descrizione ? `<p>${esc(e.descrizione)}</p>` : ""}
         ${e.luogo || e.durata ? `<p class="cal-place">${esc([e.luogo, e.durata].filter(Boolean).join(" · "))}</p>` : ""}
-        ${e.prezzo ? `<p class="cal-price">${esc(e.prezzo)}${e.include ? ` <span>${esc(e.include)}</span>` : ""}</p>` : ""}
+        ${e.prezzo ? `<p class="cal-price"><span class="cal-pill">${esc(e.prezzo)}</span>${e.include ? ` <span>${esc(e.include)}</span>` : ""}</p>` : ""}
         <a class="cal-ics" href="${ics(e)}" download="kalyta-${e.d.getFullYear()}${String(e.d.getMonth() + 1).padStart(2, "0")}${String(e.d.getDate()).padStart(2, "0")}.ics">+ Aggiungi al mio calendario</a>
       </div>
       <div class="cal-actions">${azione}</div>
@@ -137,12 +147,12 @@ const RISERVA = [
       <p class="book-when"></p>
       <div class="book-details"></div>
       <form class="book-wa">
-        <p class="book-step">Per prenotare</p>
+        <p class="book-step">Per iscriverti</p>
         <label>Nome<input name="nome" required autocomplete="name" placeholder="Il tuo nome"></label>
         <label>Quante persone?<input name="persone" type="number" min="1" max="20" value="1" required inputmode="numeric"></label>
         <label>Note <span>(facoltative)</span><input name="note" placeholder="Es. prima volta, porto un'amica…"></label>
         <button type="submit" class="book-send">Invia su WhatsApp →</button>
-        <p class="book-info">Si apre WhatsApp con il messaggio già scritto: lo invii tu. Ti confermiamo il posto in chat.</p>
+        <p class="book-info">Si apre WhatsApp con il messaggio già scritto: lo invii tu. Ti confermiamo la partecipazione in chat.</p>
       </form>
       <div class="book-form-link">
         <a class="book-send" target="_blank" rel="noopener">Compila il modulo di iscrizione →</a>
@@ -157,7 +167,7 @@ const RISERVA = [
     ev.preventDefault();
     const f = new FormData(ev.target);
     if (!scelto) return;
-    const righe = [`Ciao Kalyta, vorrei prenotare per "${scelto.titolo}" (${quandoTesto(scelto)}).`, "",
+    const righe = [`Ciao Kalyta, vorrei iscrivermi a "${scelto.titolo}" (${quandoTesto(scelto)}).`, "",
       `Nome: ${f.get("nome")}`, `Persone: ${f.get("persone")}`];
     if (String(f.get("note") || "").trim()) righe.push(`Note: ${f.get("note")}`);
     const url = wa(righe.join("\n"));
@@ -176,10 +186,11 @@ const RISERVA = [
     const righe = [
       e.descrizione && `<p class="book-desc">${esc(e.descrizione)}</p>`,
       `<dl>`,
-      e.prezzo && `<div><dt>Costo</dt><dd><strong>${esc(e.prezzo)}</strong></dd></div>`,
+      e.prezzo && `<div><dt>Contributo</dt><dd><strong>${esc(e.prezzo)}</strong></dd></div>`,
       e.include && `<div><dt>Include</dt><dd>${esc(e.include)}</dd></div>`,
       e.durata && `<div><dt>Durata</dt><dd>${esc(e.durata)}</dd></div>`,
       e.luogo && `<div><dt>Dove</dt><dd>${esc(e.luogo)}</dd></div>`,
+      e.soci && `<div><dt>Per chi</dt><dd>Riservato ai soci Kalyta. Non sei ancora socio? <a href="${wa("Ciao Kalyta, come posso diventare socio?")}" target="_blank" rel="noopener">Chiedici come associarti</a></dd></div>`,
       e.stato === "ultimi posti" && `<div><dt>Posti</dt><dd>Ultimi posti disponibili</dd></div>`,
       `</dl>`];
     dlg.querySelector(".book-details").innerHTML = righe.filter(Boolean).join("");
@@ -204,17 +215,29 @@ const RISERVA = [
     const e = eventi[i];
     box.innerHTML = `<p class="section-label">PROSSIMO APPUNTAMENTO</p>
       <p class="next-what"><strong>${esc(e.titolo)}</strong> <span>${esc(quandoTesto(e))}</span></p>
-      <div class="next-links"><a class="cal-book" data-evento="${i}" href="${wa(`Ciao Kalyta, vorrei prenotare un posto per "${e.titolo}".`)}" target="_blank" rel="noopener">Prenota →</a><a href="#calendario" class="next-all">Tutte le date</a></div>`;
+      <div class="next-links"><a class="cal-book" data-evento="${i}" href="${wa(`Ciao Kalyta, vorrei partecipare a "${e.titolo}".`)}" target="_blank" rel="noopener">Iscriviti →</a><a href="${document.querySelector(".cal-months") ? "#calendario" : "calendario/"}" class="next-all">Tutte le date</a></div>`;
     box.hidden = false;
   }
 
+  const classeTipo = t => ({ incontro: "t-incontro", evento: "t-evento" }[String(t || "").toLowerCase()] || "t-lab");
+  const MESI_BREVI = ["GEN","FEB","MAR","APR","MAG","GIU","LUG","AGO","SET","OTT","NOV","DIC"];
+  const dataTile = e => `<div class="cal-date"><span class="cal-date-m">${MESI_BREVI[e.d.getMonth()]}</span><strong>${e.d.getDate()}</strong><span>${GIORNI[e.d.getDay()]}</span></div>`;
+
   function riga(e, i) {
     const completo = e.stato === "completo";
-    const info = [`${GIORNI_LUNGHI[e.d.getDay()]} ${e.d.getDate()} ${MESI[e.d.getMonth()].toLowerCase()}`, e.ora, e.prezzo].filter(Boolean).map(esc).join(" · ");
-    return `<article class="cal-row${completo ? " is-full" : ""}">
-      <div class="cal-date"><span>${GIORNI[e.d.getDay()]}</span><strong>${e.d.getDate()}</strong></div>
-      <div class="cal-row-body"><h3>${esc(e.titolo)}</h3><p>${info}${completo ? ' <em class="cal-tag cal-tag-full">Posti esauriti</em>' : e.stato === "ultimi posti" ? ' <em class="cal-tag">Ultimi posti</em>' : ""}</p></div>
-      ${completo ? "" : `<a class="cal-book" data-evento="${i}" href="${wa(`Ciao Kalyta, vorrei prenotare un posto per "${e.titolo}".`)}" target="_blank" rel="noopener">Scopri e prenota →</a>`}
+    const info = [e.ora && "ore " + e.ora, e.durata].filter(Boolean).map(esc).join(" · ");
+    const tag = completo ? '<em class="cal-tag cal-tag-full">Posti esauriti</em>' : e.stato === "ultimi posti" ? '<em class="cal-tag">Ultimi posti</em>' : "";
+    return `<article class="cal-card ${classeTipo(e.tipo)}${completo ? " is-full" : ""}">
+      ${dataTile(e)}
+      <div class="cal-card-body">
+        <p class="cal-kind">${esc(e.tipo || "Laboratorio")} ${tag}${e.soci ? '<em class="cal-tag cal-tag-soci">Soci Kalyta</em>' : ""}</p>
+        <h3>${esc(e.titolo)}</h3>
+        ${info ? `<p class="cal-card-info">${info}</p>` : ""}
+      </div>
+      <div class="cal-card-foot">
+        ${e.prezzo ? `<span class="cal-pill">${esc(e.prezzo)}</span>` : "<span></span>"}
+        ${completo ? "" : `<a class="cal-book" data-evento="${i}" href="${wa(`Ciao Kalyta, vorrei partecipare a "${e.titolo}".`)}" target="_blank" rel="noopener">Scopri e iscriviti →</a>`}
+      </div>
     </article>`;
   }
 
@@ -268,5 +291,5 @@ const RISERVA = [
   fetch(url)
     .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
     .then(t => { if (/^\s*</.test(t)) throw new Error("foglio non condiviso"); mostra(daFoglio(t)); })
-    .catch(() => mostra(RISERVA.map(r => ({ d: leggiData(r[0]), ora: r[1], titolo: r[2], tipo: r[3], descrizione: r[4], luogo: "", prezzo: "", stato: "aperto", modulo: r[5] || "" }))));
+    .catch(() => mostra(RISERVA.map(r => ({ d: leggiData(r[0]), ora: r[1], titolo: r[2], tipo: r[3], descrizione: r[4], luogo: "", prezzo: "", stato: "aperto", soci: false, modulo: r[5] || "" }))));
 })();
