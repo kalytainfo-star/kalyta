@@ -1,0 +1,60 @@
+# Pubblica il sito su IONOS (SFTP) ogni volta che si aggiorna il branch main.
+# Servono questi "secrets" nel repository GitHub
+# (Settings → Secrets and variables → Actions → New repository secret):
+#   IONOS_SFTP_HOST      es. access-5012345678.webspace-host.com
+#   IONOS_SFTP_USER      es. a1234567  (utente SFTP del pannello IONOS)
+#   IONOS_SFTP_PASSWORD  la password di quell'utente SFTP
+#   IONOS_SFTP_DIR       facoltativo: cartella del sito sul webspace (es. /kalyta). Se manca: /
+# Si può anche avviare a mano da Actions → "Pubblica su IONOS" → Run workflow.
+
+name: Pubblica su IONOS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: pubblica-ionos
+  cancel-in-progress: false
+
+jobs:
+  pubblica:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Controlla i dati di accesso
+        id: check
+        env:
+          HOST: ${{ secrets.IONOS_SFTP_HOST }}
+          USER: ${{ secrets.IONOS_SFTP_USER }}
+          PASS: ${{ secrets.IONOS_SFTP_PASSWORD }}
+        run: |
+          if [ -z "$HOST" ] || [ -z "$USER" ] || [ -z "$PASS" ]; then
+            echo "::error::Mancano i secrets IONOS_SFTP_HOST / IONOS_SFTP_USER / IONOS_SFTP_PASSWORD: il sito NON è stato pubblicato."
+            exit 1
+          fi
+
+      - name: Prepara i file del sito
+        run: |
+          mkdir sito
+          cp index.html calendario.js main.js style.css private.css private.js robots.txt sitemap.xml sito/
+          cp -r private assets assets-private sito/
+          find sito -type f | sort
+
+      - name: Carica su IONOS
+        env:
+          HOST: ${{ secrets.IONOS_SFTP_HOST }}
+          USER: ${{ secrets.IONOS_SFTP_USER }}
+          LFTP_PASSWORD: ${{ secrets.IONOS_SFTP_PASSWORD }}
+          DIR: ${{ secrets.IONOS_SFTP_DIR }}
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          lftp -c "
+            set sftp:auto-confirm yes;
+            set net:max-retries 3;
+            set net:timeout 30;
+            open --user \"$USER\" --env-password sftp://$HOST;
+            mirror --reverse --verbose --parallel=4 sito \"${DIR:-/}\";
+          "

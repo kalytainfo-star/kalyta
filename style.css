@@ -65,3 +65,32 @@ footer img{height:auto}
 .cal-meta em{display:inline-block;white-space:nowrap;margin:4px 0 0 0}
 @media(max-width:800px){.enc-grid figure{height:380px}footer img{width:200px}}
 @media(max-width:800px){.hero h1{font-size:clamp(46px,13.5vw,90px)}}
+
+/* Revisione UX: immagini più contenute, header fisso, accessibilità */
+.site-header{position:sticky;top:0}
+[id]{scroll-margin-top:100px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--sand);outline-offset:3px}
+.calendar a:focus-visible,.calendar button:focus-visible,.ways a:focus-visible{outline-color:var(--teal)}
+.hero{min-height:0;padding-top:72px}
+.hero h1{font-size:clamp(56px,7vw,104px);margin:28px 0 56px}
+.lab-grid{grid-auto-rows:340px}
+.tile{padding:44px}
+.tile h3{font-size:42px}
+.enc-grid figure{height:460px}
+.stanza-grid{grid-template-rows:250px 250px}
+.origin img{height:420px}
+.extra-photo-story figure,.extra-photo-story figure:first-child{aspect-ratio:auto;height:300px}
+@media(max-width:800px){
+[id]{scroll-margin-top:120px}
+.hero h1{margin:22px 0 40px}
+.photo,.lab-grid .photo{height:240px}
+.tile{min-height:0;padding:30px 24px}
+.enc-grid figure{height:280px}
+.stanza-grid img{height:240px}
+.origin img{height:260px}
+.extra-photo-story figure,.extra-photo-story figure:first-child,.extra-photo-story figure:not(:first-child){height:170px;aspect-ratio:auto}
+.extra-photo-story figure:first-child{height:220px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.cal-empty a{font-size:16px;font-weight:700;margin-left:8px;opacity:1}
+.cal-empty{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 0}

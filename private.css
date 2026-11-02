@@ -9,3 +9,31 @@
 .manifesto{height:clamp(520px,78vh,760px)}
 footer img{width:200px}
 @media(max-width:800px){.hero-photo{min-height:0;height:62vh;max-height:520px}.exp,.stanza{height:auto}.exp img{height:52vh;max-height:440px}.stanza>img{height:52vh;max-height:460px}.manifesto{height:70vh;min-height:500px}footer img{width:180px}}
+
+/* Revisione UX: numerazioni tolte, immagini più contenute, header fisso */
+.site-header{position:sticky;top:0}
+[id]{scroll-margin-top:100px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--sand);outline-offset:3px}
+.hero{min-height:0}
+.hero-copy{padding:6vw 5vw 6vw 8vw}
+.hero h1{font-size:clamp(52px,5.6vw,92px)}
+.hero-photo{min-height:520px}
+.exp{height:clamp(340px,52vh,460px)}
+.stanza{height:clamp(460px,66vh,600px)}
+.manifesto{height:clamp(440px,64vh,620px)}
+.steps p{grid-template-columns:1fr}
+input::placeholder,textarea::placeholder{color:rgba(255,255,255,.55)}
+@media(max-width:800px){
+[id]{scroll-margin-top:90px}
+.site-header{flex-wrap:wrap;height:auto;padding:12px 20px}
+.site-header nav{gap:16px}
+.site-header nav a:not(.nav-cta){display:inline;font-size:11px}
+.site-header nav a[href="#esperienze"],.site-header nav a[href="#come"]{display:none!important}
+.hero-copy{padding:56px 22px 48px}
+.hero-photo{min-height:0;height:46vh;max-height:380px}
+.exp img{height:260px;max-height:none}
+.exp>div{min-height:0;padding:40px 24px}
+.stanza>img{height:280px;max-height:none}
+.manifesto{height:60vh;min-height:440px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
