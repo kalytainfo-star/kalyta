@@ -286,3 +286,5 @@ footer img{height:auto!important;object-fit:contain}
 .cal-event .cal-date{grid-row:1/3}
 .cal-event .cal-actions{justify-content:flex-start}
 }
+.book-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.book-privacy{margin-top:-6px!important}

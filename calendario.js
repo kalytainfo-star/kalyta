@@ -13,6 +13,9 @@
 const FOGLIO_ID = "1A3DCUmEcTDuTHzE7fJcJXE7HCyW6LBi5Nr761ld12ps";
 const FOGLIO_SCHEDA = "Date";
 const WHATSAPP = "393501795131";
+// Registra ogni iscrizione inviata dal sito nel foglio privato "Iscrizioni Kalyta" (Apps Script).
+// Lascia vuoto per disattivare.
+const REGISTRO_ISCRIZIONI = "https://script.google.com/macros/s/AKfycbwknJAUdUPyDccH_dDPcWli2azkx19SphklS9JbY6cmnWtVGXOGyQpFWNEOnsuqAQbs/exec";
 
 // Date di riserva: il sito le usa solo se non riesce a leggere il Foglio Google.
 const RISERVA = [
@@ -151,8 +154,10 @@ const RISERVA = [
         <label>Nome<input name="nome" required autocomplete="name" placeholder="Il tuo nome"></label>
         <label>Quante persone?<input name="persone" type="number" min="1" max="20" value="1" required inputmode="numeric"></label>
         <label>Note <span>(facoltative)</span><input name="note" placeholder="Es. prima volta, porto un'amica…"></label>
+        <input name="sito_web" tabindex="-1" autocomplete="off" aria-hidden="true" class="book-hp">
         <button type="submit" class="book-send">Invia su WhatsApp →</button>
         <p class="book-info">Si apre WhatsApp con il messaggio già scritto: lo invii tu. Ti confermiamo la partecipazione in chat.</p>
+        ${REGISTRO_ISCRIZIONI ? '<p class="book-info book-privacy">Nome, numero di persone e note vengono registrati da Kalyta APS solo per organizzare l\'appuntamento.</p>' : ""}
       </form>
       <div class="book-form-link">
         <a class="book-send" target="_blank" rel="noopener">Compila il modulo di iscrizione →</a>
@@ -163,6 +168,16 @@ const RISERVA = [
   let scelto = null;
   dlg.querySelector(".book-close").addEventListener("click", () => dlg.close());
   dlg.addEventListener("click", ev => { if (ev.target === dlg) dlg.close(); });
+  // Invio silenzioso al foglio: non blocca mai WhatsApp, anche se fallisce.
+  function registra(dati) {
+    if (!REGISTRO_ISCRIZIONI) return;
+    try {
+      const corpo = new URLSearchParams(dati);
+      if (navigator.sendBeacon && navigator.sendBeacon(REGISTRO_ISCRIZIONI, corpo)) return;
+      fetch(REGISTRO_ISCRIZIONI, { method: "POST", mode: "no-cors", body: corpo, keepalive: true }).catch(() => {});
+    } catch (_) {}
+  }
+
   dlg.querySelector(".book-wa").addEventListener("submit", ev => {
     ev.preventDefault();
     const f = new FormData(ev.target);
@@ -170,6 +185,10 @@ const RISERVA = [
     const righe = [`Ciao Kalyta, vorrei iscrivermi a "${scelto.titolo}" (${quandoTesto(scelto)}).`, "",
       `Nome: ${f.get("nome")}`, `Persone: ${f.get("persone")}`];
     if (String(f.get("note") || "").trim()) righe.push(`Note: ${f.get("note")}`);
+    registra({
+      data: `${scelto.d.getFullYear()}-${String(scelto.d.getMonth() + 1).padStart(2, "0")}-${String(scelto.d.getDate()).padStart(2, "0")}`,
+      laboratorio: scelto.titolo, nome: f.get("nome"), persone: f.get("persone"), note: f.get("note") || "", sito_web: f.get("sito_web") || ""
+    });
     const url = wa(righe.join("\n"));
     const w = window.open(url, "_blank"); if (w) w.opener = null; else location.href = url;
     dlg.close();
