@@ -1,0 +1,15 @@
+# Temporaneo: invia un'iscrizione di prova al foglio Iscrizioni Kalyta
+name: Prova iscrizione
+on:
+  push:
+    branches: [claude/youthful-brown-e8vly9]
+    paths: [.github/workflows/prova-iscrizione.yml]
+jobs:
+  prova:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -sSL -X POST "https://script.google.com/macros/s/AKfycbzA-xHDylXiEogYXDGR-qlsvsz-T3KdLJco-fLyD0Q7DQteqawP9uzazE_F3ur2GuSu/exec" \
+            --data-urlencode "data=2026-11-05" --data-urlencode "laboratorio=Candele" \
+            --data-urlencode "nome=PROVA SITO (da cancellare)" --data-urlencode "persone=2" \
+            --data-urlencode "note=riga di prova" -w "\nHTTP %{http_code}\n"
