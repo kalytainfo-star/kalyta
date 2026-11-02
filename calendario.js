@@ -173,8 +173,8 @@ const RISERVA = [
     if (!REGISTRO_ISCRIZIONI) return;
     try {
       const corpo = new URLSearchParams(dati);
-      if (navigator.sendBeacon && navigator.sendBeacon(REGISTRO_ISCRIZIONI, corpo)) return;
-      fetch(REGISTRO_ISCRIZIONI, { method: "POST", mode: "no-cors", body: corpo, keepalive: true }).catch(() => {});
+      // Senza cookie: con l'accesso a Google attivo nel browser, Apps Script rifiuterebbe la richiesta.
+      fetch(REGISTRO_ISCRIZIONI, { method: "POST", mode: "no-cors", credentials: "omit", body: corpo, keepalive: true }).catch(() => {});
     } catch (_) {}
   }
 
