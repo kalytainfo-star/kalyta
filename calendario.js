@@ -79,7 +79,7 @@ const RISERVA = [
       tipo: prendi(r, "tipo"),
       luogo: prendi(r, "luogo"),
       descrizione: prendi(r, "descrizione"),
-      prezzo: prendi(r, "prezzo"),
+      prezzo: /^\d+([.,]\d+)?$/.test(prendi(r, "prezzo")) ? prendi(r, "prezzo") + " €" : prendi(r, "prezzo"),
       stato: prendi(r, "stato").toLowerCase(),
       durata: prendi(r, "durata"),
       include: prendi(r, "cosa include"),
