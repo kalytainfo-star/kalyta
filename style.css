@@ -144,3 +144,22 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sand);outline-offse
 .cal-interest{grid-template-columns:1fr;padding:28px 22px}
 .cal-interest .cal-book{grid-column:1;grid-row:auto;justify-self:start;margin-top:12px}
 }
+
+/* Scheda evento e prenotazione */
+.cal-price{font-weight:700;font-size:17px!important;margin-top:4px!important}
+.cal-price span{font-weight:400;opacity:.7;font-size:15px}
+.book-dialog{max-height:calc(100vh - 32px)}
+.book-form{max-height:calc(100vh - 32px);overflow:auto}
+.book-desc{margin:0;font-size:17px;line-height:1.5}
+.book-details dl{margin:14px 0 4px;border-top:1px solid #00121926}
+.book-details dl div{display:grid;grid-template-columns:90px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid #00121926}
+.book-details dt{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding-top:3px}
+.book-details dd{margin:0;font-size:16px}
+.book-details dl:empty,.book-details dl:not(:has(div)){display:none}
+.book-wa{display:grid;gap:14px}
+.book-wa[hidden],.book-form-link[hidden]{display:none}
+.book-step{margin:10px 0 0;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.book-form-link{display:grid;gap:14px;margin-top:8px}
+.book-form-link .book-send{text-align:center;text-decoration:none}
+.book-ask{font-size:14px;font-weight:700;text-align:center}
+footer img{height:auto!important;object-fit:contain}

@@ -19,7 +19,7 @@ const WHATSAPP = "393501795131";
 const RISERVA = [
   ["05/11/2026", "21:00", "Candele", "Laboratorio", "Con Marea Creativa realizzeremo una candela artigianale, seguendo passo dopo passo il processo di creazione."],
   ["07/11/2026", "18:30", "Restanza", "Incontro", "Un aperitivo e un tavolo aperto per parlare con chi è rimasto, di chi è tornato e di chi ha scelto di arrivare, qui. Parleremo di ciò che ci piace del nostro territorio, di quello che manca e di cosa potremmo fare insieme."],
-  ["12/11/2026", "20:30", "Cucito creativo", "Laboratorio", "Con Ilaria realizzeremo una tote bag, lavorando direttamente con le macchine da cucire."],
+  ["12/11/2026", "20:30", "Cucito creativo", "Laboratorio", "Con Ilaria realizzeremo una tote bag, lavorando direttamente con le macchine da cucire.", "https://docs.google.com/forms/d/1epAdhOHV6hgz3NDvSNzQV7r0HLy9MPDDQ5l02hsd-gQ/viewform"],
   ["19/11/2026", "21:00", "Gioielli", "Laboratorio", "Con Vincenza ci dedicheremo alla creazione di un gioiello fatto a mano."],
   ["26/11/2026", "21:00", "Gin Lab", "Laboratorio", "Insieme all'Opificio Artigianale degli Spiriti seguiremo dal vivo la nascita del gin di Kalyta. Conosceremo le botaniche, scopriremo il processo di distillazione e parteciperemo alla scelta degli ingredienti."],
   ["28/11/2026", "21:00", "Pittura creativa", "Evento", "Un evento speciale con Alice. Composizione collettiva."],
@@ -81,6 +81,9 @@ const RISERVA = [
       descrizione: prendi(r, "descrizione"),
       prezzo: prendi(r, "prezzo"),
       stato: prendi(r, "stato").toLowerCase(),
+      durata: prendi(r, "durata"),
+      include: prendi(r, "cosa include"),
+      modulo: /^https:\/\/(docs\.google\.com\/forms|forms\.gle)\//.test(prendi(r, "link modulo")) ? prendi(r, "link modulo") : "",
     })).filter(e => e.d && e.titolo && e.stato !== "bozza");
   }
 
@@ -108,14 +111,15 @@ const RISERVA = [
       : e.stato === "ultimi posti" ? '<em class="cal-tag">Ultimi posti</em>' : "";
     const azione = completo
       ? `<a class="cal-book cal-book-full" href="${wa(`Ciao Kalyta, "${e.titolo}" del ${quando} è al completo: potete avvisarmi per la prossima data?`)}" target="_blank" rel="noopener">Avvisami →</a>`
-      : `<a class="cal-book" data-evento="${i}" href="${wa(`Ciao Kalyta, vorrei prenotare un posto per "${e.titolo}" del ${quando}.`)}" target="_blank" rel="noopener">Prenota →</a>`;
+      : `<a class="cal-book" data-evento="${i}" href="${wa(`Ciao Kalyta, vorrei prenotare un posto per "${e.titolo}" del ${quando}.`)}" target="_blank" rel="noopener">Scopri e prenota →</a>`;
     return `<article class="cal-event${completo ? " is-full" : ""}">
       <div class="cal-date"><span>${GIORNI[e.d.getDay()]}</span><strong>${e.d.getDate()}</strong></div>
       <div class="cal-body">
         <p class="cal-meta">${esc(e.tipo || "Laboratorio")}${e.ora ? " · " + esc(e.ora) : ""} ${badge}</p>
         <h3>${esc(e.titolo)}</h3>
         ${e.descrizione ? `<p>${esc(e.descrizione)}</p>` : ""}
-        ${e.luogo || e.prezzo ? `<p class="cal-place">${esc(e.luogo)}${e.luogo && e.prezzo ? " · " : ""}${esc(e.prezzo)}</p>` : ""}
+        ${e.luogo || e.durata ? `<p class="cal-place">${esc([e.luogo, e.durata].filter(Boolean).join(" · "))}</p>` : ""}
+        ${e.prezzo ? `<p class="cal-price">${esc(e.prezzo)}${e.include ? ` <span>${esc(e.include)}</span>` : ""}</p>` : ""}
         <a class="cal-ics" href="${ics(e)}" download="kalyta-${e.d.getFullYear()}${String(e.d.getMonth() + 1).padStart(2, "0")}${String(e.d.getDate()).padStart(2, "0")}.ics">+ Aggiungi al mio calendario</a>
       </div>
       <div class="cal-actions">${azione}</div>
@@ -126,22 +130,30 @@ const RISERVA = [
   let attuali = [];
   const dlg = document.createElement("dialog");
   dlg.className = "book-dialog";
-  dlg.innerHTML = `<form method="dialog" class="book-form">
+  dlg.innerHTML = `<div class="book-form">
       <button type="button" class="book-close" aria-label="Chiudi">×</button>
-      <p class="section-label">PRENOTA</p>
+      <p class="section-label book-kind"></p>
       <h3 class="book-title"></h3>
       <p class="book-when"></p>
-      <label>Nome<input name="nome" required autocomplete="name" placeholder="Il tuo nome"></label>
-      <label>Quante persone?<input name="persone" type="number" min="1" max="20" value="1" required inputmode="numeric"></label>
-      <label>Note <span>(facoltative)</span><input name="note" placeholder="Es. prima volta, porto un'amica…"></label>
-      <button type="submit" class="book-send">Invia su WhatsApp →</button>
-      <p class="book-info">Si apre WhatsApp con il messaggio già scritto: lo invii tu. Ti confermiamo il posto in chat.</p>
-    </form>`;
+      <div class="book-details"></div>
+      <form class="book-wa">
+        <p class="book-step">Per prenotare</p>
+        <label>Nome<input name="nome" required autocomplete="name" placeholder="Il tuo nome"></label>
+        <label>Quante persone?<input name="persone" type="number" min="1" max="20" value="1" required inputmode="numeric"></label>
+        <label>Note <span>(facoltative)</span><input name="note" placeholder="Es. prima volta, porto un'amica…"></label>
+        <button type="submit" class="book-send">Invia su WhatsApp →</button>
+        <p class="book-info">Si apre WhatsApp con il messaggio già scritto: lo invii tu. Ti confermiamo il posto in chat.</p>
+      </form>
+      <div class="book-form-link">
+        <a class="book-send" target="_blank" rel="noopener">Compila il modulo di iscrizione →</a>
+        <a class="book-ask" target="_blank" rel="noopener">Hai una domanda? Scrivici su WhatsApp</a>
+      </div>
+    </div>`;
   if (typeof dlg.showModal === "function") document.body.appendChild(dlg);
   let scelto = null;
   dlg.querySelector(".book-close").addEventListener("click", () => dlg.close());
   dlg.addEventListener("click", ev => { if (ev.target === dlg) dlg.close(); });
-  dlg.querySelector("form").addEventListener("submit", ev => {
+  dlg.querySelector(".book-wa").addEventListener("submit", ev => {
     ev.preventDefault();
     const f = new FormData(ev.target);
     if (!scelto) return;
@@ -158,11 +170,31 @@ const RISERVA = [
     const e = attuali[+a.dataset.evento]; if (!e) return;
     ev.preventDefault();
     scelto = e;
+    dlg.querySelector(".book-kind").textContent = (e.tipo || "Laboratorio").toUpperCase();
     dlg.querySelector(".book-title").textContent = e.titolo;
-    dlg.querySelector(".book-when").textContent = quandoTesto(e).replace(/^./, s => s.toUpperCase()) + (e.luogo ? " · " + e.luogo : "");
+    dlg.querySelector(".book-when").textContent = quandoTesto(e).replace(/^./, s => s.toUpperCase());
+    const righe = [
+      e.descrizione && `<p class="book-desc">${esc(e.descrizione)}</p>`,
+      `<dl>`,
+      e.prezzo && `<div><dt>Costo</dt><dd><strong>${esc(e.prezzo)}</strong></dd></div>`,
+      e.include && `<div><dt>Include</dt><dd>${esc(e.include)}</dd></div>`,
+      e.durata && `<div><dt>Durata</dt><dd>${esc(e.durata)}</dd></div>`,
+      e.luogo && `<div><dt>Dove</dt><dd>${esc(e.luogo)}</dd></div>`,
+      e.stato === "ultimi posti" && `<div><dt>Posti</dt><dd>Ultimi posti disponibili</dd></div>`,
+      `</dl>`];
+    dlg.querySelector(".book-details").innerHTML = righe.filter(Boolean).join("");
+    const conModulo = !!e.modulo;
+    dlg.querySelector(".book-wa").hidden = conModulo;
+    dlg.querySelector(".book-form-link").hidden = !conModulo;
+    if (conModulo) {
+      dlg.querySelector(".book-form-link .book-send").href = e.modulo;
+      dlg.querySelector(".book-ask").href = wa(`Ciao Kalyta, ho una domanda su "${e.titolo}" del ${quandoTesto(e)}.`);
+    }
     dlg.showModal();
-    dlg.querySelector("input[name=nome]").focus();
+    dlg.querySelector(".book-form").scrollTop = 0;
+    (conModulo ? dlg.querySelector(".book-form-link .book-send") : dlg.querySelector("input[name=nome]")).focus({ preventScroll: true });
   });
+
 
   function prossimo(eventi) {
     const box = document.getElementById("prossimo");
@@ -215,5 +247,5 @@ const RISERVA = [
   fetch(url)
     .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
     .then(t => { if (/^\s*</.test(t)) throw new Error("foglio non condiviso"); mostra(daFoglio(t)); })
-    .catch(() => mostra(RISERVA.map(r => ({ d: leggiData(r[0]), ora: r[1], titolo: r[2], tipo: r[3], descrizione: r[4], luogo: "", prezzo: "", stato: "aperto" }))));
+    .catch(() => mostra(RISERVA.map(r => ({ d: leggiData(r[0]), ora: r[1], titolo: r[2], tipo: r[3], descrizione: r[4], luogo: "", prezzo: "", stato: "aperto", modulo: r[5] || "" }))));
 })();

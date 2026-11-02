@@ -1,0 +1,11 @@
+# Le pagine e i file del sito vengono sempre ricontrollati, così dopo ogni
+# aggiornamento i visitatori vedono subito la versione nuova.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|htm|css|js)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(jpg|jpeg|png|webp|svg|ico)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
+DirectoryIndex index.html index.htm
