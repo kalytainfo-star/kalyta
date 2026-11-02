@@ -329,3 +329,43 @@ footer{flex-wrap:wrap;gap:24px 40px}
 .stanza-grid img{height:auto!important;margin:0!important}
 .origin img{margin-top:30px}
 }
+
+/* ===== Kalyta Card ===== */
+.giftcard{background:var(--cream);display:grid;grid-template-columns:1fr 1.05fr;gap:60px;align-items:center;overflow:hidden}
+.gc-copy h2{font-size:clamp(54px,6.2vw,96px);line-height:.92;letter-spacing:-.055em;margin:18px 0 22px}
+.gc-lead{font-size:20px;line-height:1.5;max-width:560px;margin:0 0 26px}
+.gc-info{margin:0 0 30px;border-top:1px solid var(--ink)}
+.gc-info div{display:grid;grid-template-columns:130px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid #00121926}
+.gc-info dt{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding-top:3px}
+.gc-info dd{margin:0;font-size:16px;line-height:1.5}
+.gc-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+.gc-actions .cal-book{font-size:15px;padding:15px 22px}
+.gc-link{font-weight:700;font-size:15px}
+.gc-visual{position:relative;aspect-ratio:1.15;border-radius:28px;background:radial-gradient(120% 90% at 85% 90%,#f39000 0%,#e2620e 35%,#b8231d 70%,#7a1611 100%);padding:8%;display:grid;place-items:center}
+.gc-visual::after{content:"";position:absolute;inset:0;border-radius:28px;background:radial-gradient(60% 50% at 20% 15%,rgba(255,248,236,.25),transparent 70%);pointer-events:none}
+
+.kcard{position:absolute;width:74%;aspect-ratio:1.586;border-radius:18px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.55),0 2px 0 rgba(255,255,255,.08) inset}
+.kcard-front{left:6%;bottom:10%;transform:rotate(-7deg);background:radial-gradient(90% 120% at 100% 100%,#3a1a0e 0%,#0b1d24 45%,#001219 100%);color:#fff8ec;container-type:inline-size}
+.kf-logo{position:absolute;top:9%;left:7%;width:42%;height:auto}
+.kf-star{position:absolute;right:-12%;bottom:-24%;width:62%;height:auto;transform:rotate(14deg);opacity:.95}
+.kf-bottom{position:absolute;left:7%;bottom:9%;display:flex;flex-direction:column;gap:4px}
+.kf-name{font-size:15cqi;font-weight:700;letter-spacing:-.05em;line-height:.85}
+.kf-sub{font-size:3.6cqi;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sand)}
+.kcard-back{right:5%;top:8%;transform:rotate(6deg);background:#fffaf0;color:var(--ink);padding:6%;display:flex;flex-direction:column;container-type:inline-size}
+.kb-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5%}
+.kb-title{font-weight:700;font-size:5cqi;letter-spacing:-.03em}
+.kb-num{font-size:3.2cqi;font-weight:700;letter-spacing:.12em;color:#b8231d}
+.kb-lines p{display:flex;align-items:flex-end;gap:3%;margin:0 0 4%;font-size:3.2cqi;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.kb-lines span{white-space:nowrap}
+.kb-lines i{flex:1;border-bottom:1px solid #00121966;height:1em}
+.kb-how{font-size:3.1cqi;line-height:1.4;margin:auto 0 3%;max-width:85%}
+.kb-foot{font-size:2.6cqi;letter-spacing:.06em;opacity:.65;margin:0}
+
+@media(max-width:800px){
+.giftcard{grid-template-columns:1fr;gap:36px}
+.gc-info div{grid-template-columns:1fr;gap:4px}
+.gc-visual{aspect-ratio:1/1;border-radius:20px}
+.kcard{width:80%}
+}
+.kf-star{right:-16%;bottom:-30%;width:56%}
+.kf-sub{font-size:3.2cqi;max-width:60cqi}

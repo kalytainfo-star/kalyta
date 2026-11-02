@@ -153,7 +153,7 @@ const RISERVA = [
         <p class="book-step">Per iscriverti</p>
         <label>Nome<input name="nome" required autocomplete="name" placeholder="Il tuo nome"></label>
         <label>Quante persone?<input name="persone" type="number" min="1" max="20" value="1" required inputmode="numeric"></label>
-        <label>Note <span>(facoltative)</span><input name="note" placeholder="Es. prima volta, porto un'amica…"></label>
+        <label>Note <span>(facoltative)</span><input name="note" placeholder="Es. prima volta, ho una Kalyta Card n. 012…"></label>
         <input name="sito_web" tabindex="-1" autocomplete="off" aria-hidden="true" class="book-hp">
         <button type="submit" class="book-send">Invia su WhatsApp →</button>
         <p class="book-info">Si apre WhatsApp con il messaggio già scritto: lo invii tu. Ti confermiamo la partecipazione in chat.</p>
