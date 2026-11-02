@@ -15,7 +15,7 @@ const FOGLIO_SCHEDA = "Date";
 const WHATSAPP = "393501795131";
 // Registra ogni iscrizione inviata dal sito nel foglio privato "Iscrizioni Kalyta" (Apps Script).
 // Lascia vuoto per disattivare.
-const REGISTRO_ISCRIZIONI = "https://script.google.com/macros/s/AKfycbw7XtN2XA9Tp6ciyurPggZ96E6fSxePlBjE3IJJqaJ3re9d7TLRinlPFyKNrLyj2dl6/exec";
+const REGISTRO_ISCRIZIONI = "https://script.google.com/macros/s/AKfycbwknJAUdUPyDccH_dDPcWli2azkx19SphklS9JbY6cmnWtVGXOGyQpFWNEOnsuqAQbs/exec";
 
 // Date di riserva: il sito le usa solo se non riesce a leggere il Foglio Google.
 const RISERVA = [
