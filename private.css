@@ -40,3 +40,9 @@ input::placeholder,textarea::placeholder{color:rgba(255,255,255,.55)}
 footer img{height:auto!important;object-fit:contain}
 footer{flex-wrap:wrap;gap:24px 40px}
 .foot-legal{flex-basis:100%;margin:10px 0 0;padding-top:20px;border-top:1px solid #fffdf726;font-size:12px;line-height:1.6;opacity:.65}
+
+/* Foto con proporzioni fisse */
+.exp{height:auto!important;min-height:0!important;align-items:stretch}
+.exp>img{aspect-ratio:4/3;height:auto!important;object-fit:cover}
+.hero-photo img{object-position:50% 50%}
+@media(max-width:800px){.exp img{height:auto!important;aspect-ratio:4/3}}
