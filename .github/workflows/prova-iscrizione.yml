@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          curl -sSL -o /dev/null "https://script.google.com/macros/s/AKfycby48E9MwZwxuNJ_8tEdBQHzuyc3FK25Vff1x6KtIV5sK7hZP0T0bpAI1noSyBcW1GL3/exec" \
+          curl -sSL -o /dev/null "https://script.google.com/macros/s/AKfycbxuiydEZFT_d5Y7uhUJNjkNevjhNgTq5aRDL0H2DsPWzeD7DM1zMUYJ8t19d1o5XCPL/exec" \
             --data-urlencode "data=2026-11-05" --data-urlencode "laboratorio=Candele" \
             --data-urlencode "nome=PROVA SITO (da cancellare)" --data-urlencode "persone=2" \
             --data-urlencode "note=riga di prova" -w "\nHTTP %{http_code} redirects=%{num_redirects} url=%{url_effective}\n"
           echo "--- primo passaggio senza redirect:"
-          curl -sS -o /dev/null -D - "https://script.google.com/macros/s/AKfycby48E9MwZwxuNJ_8tEdBQHzuyc3FK25Vff1x6KtIV5sK7hZP0T0bpAI1noSyBcW1GL3/exec" --data-urlencode "nome=x" | grep -iE '^HTTP|^location' | cut -c1-120
+          curl -sS -o /dev/null -D - "https://script.google.com/macros/s/AKfycbxuiydEZFT_d5Y7uhUJNjkNevjhNgTq5aRDL0H2DsPWzeD7DM1zMUYJ8t19d1o5XCPL/exec" --data-urlencode "nome=x" | grep -iE '^HTTP|^location' | cut -c1-120
