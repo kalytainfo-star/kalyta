@@ -12,7 +12,6 @@
 
 const FOGLIO_ID = "1A3DCUmEcTDuTHzE7fJcJXE7HCyW6LBi5Nr761ld12ps";
 const FOGLIO_SCHEDA = "Date";
-const MOSTRA_ALMENO_FINO_A = "2027-03-31"; // il calendario mostra i mesi almeno fino a questa data
 const WHATSAPP = "393501795131";
 
 // Date di riserva: il sito le usa solo se non riesce a leggere il Foglio Google.
@@ -28,7 +27,8 @@ const RISERVA = [
 (function () {
   const box = document.querySelector(".cal-months");
   const filtri = document.querySelector(".cal-filters");
-  if (!box) return;
+  const compatto = document.querySelector(".cal-compact");
+  if (!box && !compatto && !document.getElementById("prossimo")) return;
 
   const MESI = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
   const GIORNI = ["Dom","Lun","Mar","Mer","Gio","Ven","Sab"];
@@ -208,27 +208,48 @@ const RISERVA = [
     box.hidden = false;
   }
 
+  function riga(e, i) {
+    const completo = e.stato === "completo";
+    const info = [`${GIORNI_LUNGHI[e.d.getDay()]} ${e.d.getDate()} ${MESI[e.d.getMonth()].toLowerCase()}`, e.ora, e.prezzo].filter(Boolean).map(esc).join(" · ");
+    return `<article class="cal-row${completo ? " is-full" : ""}">
+      <div class="cal-date"><span>${GIORNI[e.d.getDay()]}</span><strong>${e.d.getDate()}</strong></div>
+      <div class="cal-row-body"><h3>${esc(e.titolo)}</h3><p>${info}${completo ? ' <em class="cal-tag cal-tag-full">Posti esauriti</em>' : e.stato === "ultimi posti" ? ' <em class="cal-tag">Ultimi posti</em>' : ""}</p></div>
+      ${completo ? "" : `<a class="cal-book" data-evento="${i}" href="${wa(`Ciao Kalyta, vorrei prenotare un posto per "${e.titolo}".`)}" target="_blank" rel="noopener">Scopri e prenota →</a>`}
+    </article>`;
+  }
+
   function mostra(tutti) {
     const oggi = new Date(); oggi.setHours(0, 0, 0, 0);
     const eventi = tutti.filter(e => e.d >= oggi).sort((a, b) => a.d - b.d);
     attuali = eventi;
     prossimo(eventi);
-    let fine = leggiData(MOSTRA_ALMENO_FINO_A);
-    if (eventi.length && eventi[eventi.length - 1].d > fine) fine = eventi[eventi.length - 1].d;
 
-    const mesi = [];
-    for (let d = new Date(oggi.getFullYear(), oggi.getMonth(), 1); d <= fine; d = new Date(d.getFullYear(), d.getMonth() + 1, 1)) {
-      mesi.push({ key: d.getFullYear() + "-" + d.getMonth(), nome: MESI[d.getMonth()], anno: d.getFullYear(),
-        eventi: eventi.filter(e => e.d.getFullYear() === d.getFullYear() && e.d.getMonth() === d.getMonth()) });
+    // Home: solo le prossime date, in formato compatto
+    if (compatto) {
+      const N = +compatto.dataset.quante || 4;
+      compatto.innerHTML = eventi.length
+        ? eventi.slice(0, N).map((e, i) => riga(e, i)).join("")
+        : `<p class="cal-empty">Nuove date in arrivo. <a href="${wa("Ciao Kalyta, vorrei sapere le prossime date.")}" target="_blank" rel="noopener">Chiedici su WhatsApp →</a></p>`;
     }
+
+    // Pagina Calendario: tutti i mesi che hanno date
+    if (!box) return;
+    const mesi = [];
+    eventi.forEach(e => {
+      const key = e.d.getFullYear() + "-" + e.d.getMonth();
+      let m = mesi.find(x => x.key === key);
+      if (!m) mesi.push(m = { key, nome: MESI[e.d.getMonth()], anno: e.d.getFullYear(), eventi: [] });
+      m.eventi.push(e);
+    });
 
     box.innerHTML = mesi.map(m => `<div class="cal-month" data-mese="${m.key}">
         <h3 class="cal-month-title">${m.nome} <span>${m.anno}</span></h3>
-        ${m.eventi.length ? m.eventi.map(e => card(e, eventi.indexOf(e))).join("")
-          : `<p class="cal-empty">Date in arrivo. <a href="${wa(`Ciao Kalyta, vorrei sapere le prossime date di ${m.nome.toLowerCase()}.`)}" target="_blank" rel="noopener">Chiedici su WhatsApp →</a></p>`}
-      </div>`).join("");
+        ${m.eventi.map(e => card(e, eventi.indexOf(e))).join("")}
+      </div>`).join("") +
+      `<p class="cal-more">Altre date in arrivo. Seguici su <a href="https://www.instagram.com/kalyta.official_/">Instagram</a> o <a href="${wa("Ciao Kalyta, vorrei sapere quando ci sono nuove date.")}" target="_blank" rel="noopener">scrivici su WhatsApp</a> per saperlo prima.</p>`;
 
     if (filtri) {
+      filtri.hidden = mesi.length < 2;
       filtri.innerHTML = `<button type="button" aria-pressed="true" data-mese="tutti">Tutti</button>` +
         mesi.map(m => `<button type="button" aria-pressed="false" data-mese="${m.key}">${m.nome.slice(0, 3)}</button>`).join("");
     }
@@ -242,7 +263,7 @@ const RISERVA = [
     });
   }
 
-  box.innerHTML = '<p class="cal-empty">Carico le date…</p>';
+  [box, compatto].forEach(el => { if (el) el.innerHTML = '<p class="cal-empty">Carico le date…</p>'; });
   const url = `https://docs.google.com/spreadsheets/d/${FOGLIO_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(FOGLIO_SCHEDA)}&t=${Date.now()}`;
   fetch(url)
     .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })

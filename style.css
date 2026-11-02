@@ -163,3 +163,22 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sand);outline-offse
 .book-form-link .book-send{text-align:center;text-decoration:none}
 .book-ask{font-size:14px;font-weight:700;text-align:center}
 footer img{height:auto!important;object-fit:contain}
+
+/* Home: prossime date compatte */
+.cal-compact{border-top:1px solid var(--ink)}
+.cal-row{display:grid;grid-template-columns:64px 1fr auto;gap:24px;align-items:center;padding:18px 0;border-bottom:1px solid #00121926}
+.cal-row .cal-date strong{font-size:28px}
+.cal-row h3{font-size:26px;letter-spacing:-.03em;line-height:1.05;margin:0 0 4px}
+.cal-row p{margin:0;font-size:16px;opacity:.8}
+.cal-row.is-full h3,.cal-row.is-full .cal-date{opacity:.55}
+.cal-all{display:inline-block;margin-top:28px;font-weight:700;font-size:16px;border-bottom:1px solid currentColor;text-decoration:none;padding-bottom:4px}
+.cal-more{margin-top:34px;font-size:17px;border-top:1px solid var(--ink);padding-top:24px}
+.cal-page-title{font-size:clamp(58px,7vw,104px);line-height:.9;letter-spacing:-.055em;margin:0}
+.cal-filters[hidden]{display:none}
+.site-header nav a[aria-current="page"]{text-decoration:underline;text-underline-offset:6px}
+@media(max-width:800px){
+.cal-row{grid-template-columns:54px 1fr;gap:6px 16px}
+.cal-row .cal-book{grid-column:2;justify-self:start;margin-top:8px}
+.cal-row h3{font-size:22px}
+.cal-page-title{font-size:58px}
+}
