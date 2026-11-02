@@ -94,3 +94,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--sand);outline-offse
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 .cal-empty a{font-size:16px;font-weight:700;margin-left:8px;opacity:1}
 .cal-empty{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 0}
+.cal-tag{display:inline-block;font-style:normal;background:var(--aqua);padding:3px 8px;margin-left:6px;letter-spacing:.08em;white-space:nowrap}
+.cal-tag-full{background:#e8c4bd}
+.cal-event.is-full .cal-body h3,.cal-event.is-full .cal-date{opacity:.55}
+.cal-book-full{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.cal-meta .cal-tag-full{background:#e8c4bd}
