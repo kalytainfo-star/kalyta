@@ -369,3 +369,6 @@ footer{flex-wrap:wrap;gap:24px 40px}
 }
 .kf-star{right:-16%;bottom:-30%;width:56%}
 .kf-sub{font-size:3.2cqi;max-width:60cqi}
+.book-check{display:flex!important;gap:10px;align-items:flex-start;text-transform:none!important;letter-spacing:0!important;font-weight:400!important;font-size:14px!important;line-height:1.45}
+.book-check input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--ink)}
+.book-check a{font-weight:700}
