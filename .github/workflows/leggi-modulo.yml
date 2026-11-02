@@ -10,14 +10,15 @@ jobs:
     steps:
       - name: Codici delle domande
         run: |
-          curl -sSL "https://docs.google.com/forms/d/1RU82rvmb822AqMCr6e9TLyqI6sk-kaQzAkjnLn9HcWo/viewform" -o f.html -w "HTTP %{http_code} %{url_effective}\n"
-          python3 - <<'P'
+          for ID in 1Vlwm3kS5A5A689rNjITp8JAf1KR5vJZiznfbhhgTxC4 1RU82rvmb822AqMCr6e9TLyqI6sk-kaQzAkjnLn9HcWo; do
+          echo "=== $ID"
+          curl -sSL "https://docs.google.com/forms/d/$ID/viewform" -o f.html -w "HTTP %{http_code} %{url_effective}\n"
+          python3 - <<'P' || true
           import re, json
           h = open("f.html", encoding="utf-8").read()
           m = re.search(r"FB_PUBLIC_LOAD_DATA_ = (.*?);\s*</script>", h, re.S)
           if not m:
               print("Modulo non leggibile (non pubblicato o non accetta risposte)")
-              print(re.sub(r"<[^>]+>", " ", h)[:600])
               raise SystemExit
           d = json.loads(m.group(1))
           print("Titolo:", d[1][8] if len(d[1]) > 8 else d[3])
@@ -26,3 +27,4 @@ jobs:
                   for f in q[4]:
                       print("DOMANDA:", q[1], "| tipo:", q[3], "| entry." + str(f[0]), "| opzioni:", [o[0] for o in (f[1] or [])][:20])
           P
+          done
