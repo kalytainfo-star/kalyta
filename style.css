@@ -377,3 +377,7 @@ footer{flex-wrap:wrap;gap:24px 40px}
 .soci p{font-size:20px;line-height:1.5}
 .soci .button{background:var(--ink);color:var(--white);border:0;padding:14px 20px}
 @media(max-width:800px){.soci{padding:60px 22px;display:block}.soci h2{font-size:55px}}
+.book-form textarea{font:inherit;font-size:17px;letter-spacing:0;text-transform:none;font-weight:400;padding:11px 12px;border:1px solid #00121966;background:#fff;color:var(--ink);resize:vertical}
+.book-form textarea:focus-visible{outline:2px solid var(--teal);outline-offset:1px}
+.book-altri small{font-size:13px;font-weight:400;letter-spacing:0;text-transform:none;opacity:.7}
+.book-altri[hidden]{display:none}
