@@ -97,7 +97,21 @@ const RISERVA = [
       durata: prendi(r, "durata"),
       include: prendi(r, "cosa include"),
       modulo: /^https:\/\/(docs\.google\.com\/forms|forms\.gle)\//.test(prendi(r, "link modulo")) ? prendi(r, "link modulo") : "",
-    })).filter(e => e.d && e.titolo && e.stato !== "bozza");
+      posti: parseInt(prendi(r, "posti"), 10) || 0,
+      iscritti: parseInt(prendi(r, "iscritti (automatico)"), 10) || 0,
+    })).filter(e => e.d && e.titolo && e.stato !== "bozza").map(postiLiberi);
+  }
+
+  // Con la colonna "Posti" lo stato si aggiorna da solo in base agli iscritti.
+  // "Completo" scritto a mano nel foglio vale sempre.
+  function postiLiberi(e) {
+    if (!e.posti) return e;
+    e.rimasti = Math.max(0, e.posti - e.iscritti);
+    if (e.stato !== "completo") {
+      if (e.rimasti === 0) e.stato = "completo";
+      else if (e.rimasti <= Math.max(2, Math.ceil(e.posti * 0.2))) e.stato = "ultimi posti";
+    }
+    return e;
   }
 
   const quandoTesto = e => `${GIORNI_LUNGHI[e.d.getDay()]} ${e.d.getDate()} ${MESI[e.d.getMonth()].toLowerCase()}${e.ora ? ", ore " + e.ora : ""}`;
@@ -210,6 +224,9 @@ const RISERVA = [
     const e = attuali[+a.dataset.evento]; if (!e) return;
     ev.preventDefault();
     scelto = e;
+    campoPersone.max = e.rimasti || 20;
+    if (+campoPersone.value > +campoPersone.max) campoPersone.value = campoPersone.max;
+    aggiornaAltri();
     dlg.querySelector(".book-kind").textContent = (e.tipo || "Laboratorio").toUpperCase();
     dlg.querySelector(".book-title").textContent = e.titolo;
     dlg.querySelector(".book-when").textContent = quandoTesto(e).replace(/^./, s => s.toUpperCase());
@@ -221,7 +238,8 @@ const RISERVA = [
       e.durata && `<div><dt>Durata</dt><dd>${esc(e.durata)}</dd></div>`,
       e.luogo && `<div><dt>Dove</dt><dd>${esc(e.luogo)}</dd></div>`,
       e.soci && `<div><dt>Per chi</dt><dd>Riservato ai soci Kalyta. Non sei ancora socio? <a href="https://portalesoci.it/iscrizioni-associazione-smart/kalyta-aps/" target="_blank" rel="noopener">Diventa socio</a></dd></div>`,
-      e.stato === "ultimi posti" && `<div><dt>Posti</dt><dd>Ultimi posti disponibili</dd></div>`,
+      e.rimasti > 0 ? `<div><dt>Posti</dt><dd>${e.rimasti === 1 ? "Resta 1 posto" : `Restano ${e.rimasti} posti`}</dd></div>`
+        : e.stato === "ultimi posti" && `<div><dt>Posti</dt><dd>Ultimi posti disponibili</dd></div>`,
       `</dl>`];
     dlg.querySelector(".book-details").innerHTML = righe.filter(Boolean).join("");
     const conModulo = !!e.modulo;
