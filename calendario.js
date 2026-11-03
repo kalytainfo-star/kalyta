@@ -156,7 +156,7 @@ const RISERVA = [
         <label>Quante persone?<input name="persone" type="number" min="1" max="20" value="1" required inputmode="numeric"></label>
         <label>Note <span>(facoltative)</span><input name="note" placeholder="Es. prima volta, ho una Kalyta Card n. 012…"></label>
         <input name="sito_web" tabindex="-1" autocomplete="off" aria-hidden="true" class="book-hp">
-        <label class="book-check"><input type="checkbox" name="condizioni" required> <span>Ho letto le <a href="/condizioni/" target="_blank" rel="noopener">condizioni di partecipazione</a>: se non disdico almeno 24 ore prima, il contributo versato non viene restituito.</span></label>
+        <label class="book-check"><input type="checkbox" name="condizioni" required> <span>Ho letto le <a href="/condizioni/" target="_blank" rel="noopener">condizioni di partecipazione</a>: posso disdire fino a 24 ore prima; dopo, il contributo versato non viene restituito.</span></label>
         <button type="submit" class="book-send">Invia su WhatsApp →</button>
         <p class="book-info">Si apre WhatsApp con il messaggio già scritto: lo invii tu. Ti confermiamo la partecipazione in chat.</p>
         ${REGISTRO_ISCRIZIONI ? '<p class="book-info book-privacy">Nome, email, numero di persone e note vengono registrati da Kalyta APS solo per organizzare l\'appuntamento. <a href="/privacy/">Privacy</a></p>' : ""}
@@ -164,7 +164,7 @@ const RISERVA = [
       <div class="book-form-link">
         <a class="book-send" target="_blank" rel="noopener">Compila il modulo di iscrizione →</a>
         <a class="book-ask" target="_blank" rel="noopener">Hai una domanda? Scrivici su WhatsApp</a>
-        <p class="book-info">Valgono le <a href="/condizioni/" target="_blank" rel="noopener">condizioni di partecipazione</a>: se non disdici almeno 24 ore prima, il contributo versato non viene restituito.</p>
+        <p class="book-info">Valgono le <a href="/condizioni/" target="_blank" rel="noopener">condizioni di partecipazione</a>: puoi disdire fino a 24 ore prima; dopo, il contributo versato non viene restituito.</p>
       </div>
     </div>`;
   if (typeof dlg.showModal === "function") document.body.appendChild(dlg);
@@ -212,7 +212,7 @@ const RISERVA = [
       e.include && `<div><dt>Include</dt><dd>${esc(e.include)}</dd></div>`,
       e.durata && `<div><dt>Durata</dt><dd>${esc(e.durata)}</dd></div>`,
       e.luogo && `<div><dt>Dove</dt><dd>${esc(e.luogo)}</dd></div>`,
-      e.soci && `<div><dt>Per chi</dt><dd>Riservato ai soci Kalyta. Non sei ancora socio? <a href="${wa("Ciao Kalyta, come posso diventare socio?")}" target="_blank" rel="noopener">Chiedici come associarti</a></dd></div>`,
+      e.soci && `<div><dt>Per chi</dt><dd>Riservato ai soci Kalyta. Non sei ancora socio? <a href="https://portalesoci.it/iscrizioni-associazione-smart/kalyta-aps/" target="_blank" rel="noopener">Diventa socio</a></dd></div>`,
       e.stato === "ultimi posti" && `<div><dt>Posti</dt><dd>Ultimi posti disponibili</dd></div>`,
       `</dl>`];
     dlg.querySelector(".book-details").innerHTML = righe.filter(Boolean).join("");
