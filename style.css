@@ -381,3 +381,12 @@ footer{flex-wrap:wrap;gap:24px 40px}
 .book-form textarea:focus-visible{outline:2px solid var(--teal);outline-offset:1px}
 .book-altri small{font-size:13px;font-weight:400;letter-spacing:0;text-transform:none;opacity:.7}
 .book-altri[hidden]{display:none}
+/* Home più leggera: quattro modi per partecipare e STANZA con una sola foto */
+.ways-grid{grid-template-columns:repeat(4,1fr)}
+.ways article h3{font-size:28px}
+.ways-more{margin:40px 0 0;font-size:17px;line-height:1.5}
+.ways-more a{font-weight:700}
+.stanza-wide{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:50% 60%}
+@media(max-width:1100px) and (min-width:801px){.ways-grid{grid-template-columns:repeat(2,1fr)}.ways article:nth-child(2){border-right:0}.ways article:nth-child(3){padding-left:0}.ways article:nth-child(4){padding-left:38px}.ways article:nth-child(-n+2){border-bottom:1px solid #00121955}}
+@media(max-width:800px){.stanza-wide{aspect-ratio:4/3}.ways-more{font-size:16px}}
+#card.giftcard{min-height:calc(100vh - 88px - 200px)}
