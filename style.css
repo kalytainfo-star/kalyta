@@ -390,3 +390,39 @@ footer{flex-wrap:wrap;gap:24px 40px}
 @media(max-width:1100px) and (min-width:801px){.ways-grid{grid-template-columns:repeat(2,1fr)}.ways article:nth-child(2){border-right:0}.ways article:nth-child(3){padding-left:0}.ways article:nth-child(4){padding-left:38px}.ways article:nth-child(-n+2){border-bottom:1px solid #00121955}}
 @media(max-width:800px){.stanza-wide{aspect-ratio:4/3}.ways-more{font-size:16px}}
 #card.giftcard{min-height:calc(100vh - 88px - 200px)}
+/* Kalyta Fuori STANZA */
+.fs-hero{background:var(--ink);color:var(--white);padding:90px max(7vw,40px) 50px}
+.fs-hero h1{font-size:clamp(56px,8vw,124px);line-height:.88;letter-spacing:-.06em;margin:28px 0 70px;max-width:1000px}
+.fs-hero-foot{border-top:1px solid #ffffff44;padding-top:28px;display:flex;justify-content:space-between;gap:40px;align-items:flex-end}
+.fs-hero-foot p{font-size:22px;line-height:1.45;margin:0;max-width:720px}
+.fs-hero .cal-book{background:var(--sand);color:var(--ink)}
+.fs-cases{background:var(--sand)}
+.fs-cases-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 60px;margin-top:30px;border-top:1px solid var(--ink)}
+.fs-cases article{padding:30px 0}
+.fs-place{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin:0 0 12px}
+.fs-cases h3{font-size:30px;line-height:1.05;letter-spacing:-.03em;margin:0 0 14px}
+.fs-cases article p:last-child{font-size:17px;line-height:1.5;margin:0}
+.fs-labs-grid{display:grid;gap:60px;margin-top:40px}
+.fs-lab{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:start}
+.fs-lab img{width:100%;aspect-ratio:4/5;height:auto;object-fit:cover;display:block}
+.fs-lab h2{font-size:clamp(44px,5vw,72px);line-height:.95;letter-spacing:-.05em;margin:0 0 18px}
+.fs-lab>div>p{font-size:19px;line-height:1.5;max-width:620px}
+.fs-lab dl{margin:26px 0;border-top:1px solid var(--ink)}
+.fs-lab dl div{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:12px 0;border-bottom:1px solid #00121933}
+.fs-lab dt{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding-top:3px}
+.fs-lab dd{margin:0;font-size:17px;line-height:1.45}
+.fs-lab .fs-variants{font-size:17px;background:var(--cream);padding:20px 22px;max-width:none}
+.fs-who{background:var(--ink);color:var(--white)}
+.fs-who h2,.fs-how h2{font-size:clamp(48px,6vw,92px);line-height:.92;letter-spacing:-.055em;margin:20px 0 50px}
+.fs-who-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;border-top:1px solid #ffffff44;padding-top:30px}
+.fs-who h3{font-size:24px;line-height:1.1;margin:0 0 12px}
+.fs-who p{font-size:16px;line-height:1.5;margin:0;opacity:.9}
+.fs-who a{color:var(--sand)}
+.fs-how{display:grid;grid-template-columns:1fr 1.3fr;gap:70px;background:var(--white)}
+.fs-how h2{margin-bottom:0}
+.fs-steps p{font-size:19px;line-height:1.5;margin:0;padding:18px 0;border-bottom:1px solid #00121933}
+.fs-steps p:first-child{border-top:1px solid var(--ink)}
+.fs-steps .fs-note{font-size:16px;border:0;opacity:.75}
+.fs-actions{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-top:10px}
+@media(max-width:1000px){.fs-who-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:800px){.fs-hero{padding:60px 22px 40px}.fs-hero h1{margin:22px 0 40px}.fs-hero-foot{display:block}.fs-hero-foot p{font-size:18px;margin-bottom:24px}.fs-cases-grid,.fs-lab,.fs-how,.fs-who-grid{grid-template-columns:1fr;gap:0}.fs-cases article+article{border-top:1px solid #00121955}.fs-lab{gap:24px}.fs-lab img{aspect-ratio:4/3}.fs-lab dl div{grid-template-columns:110px 1fr}.fs-who-grid article{padding:20px 0;border-bottom:1px solid #ffffff33}.fs-how h2{margin-bottom:30px}}
