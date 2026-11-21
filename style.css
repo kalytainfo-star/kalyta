@@ -426,3 +426,13 @@ footer{flex-wrap:wrap;gap:24px 40px}
 .fs-actions{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-top:10px}
 @media(max-width:1000px){.fs-who-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:800px){.fs-hero{padding:60px 22px 40px}.fs-hero h1{margin:22px 0 40px}.fs-hero-foot{display:block}.fs-hero-foot p{font-size:18px;margin-bottom:24px}.fs-cases-grid,.fs-lab,.fs-how,.fs-who-grid{grid-template-columns:1fr;gap:0}.fs-cases article+article{border-top:1px solid #00121955}.fs-lab{gap:24px}.fs-lab img{aspect-ratio:4/3}.fs-lab dl div{grid-template-columns:110px 1fr}.fs-who-grid article{padding:20px 0;border-bottom:1px solid #ffffff33}.fs-how h2{margin-bottom:30px}}
+
+/* In arrivo: appuntamenti senza data */
+.cal-interest{display:block}
+.cal-interest .soon-intro{margin:10px 0 18px!important;font-size:17px;line-height:1.45;max-width:620px}
+.soon-list{display:grid;border-top:1px solid #fffdf733}
+.soon-item{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:18px 0;border-bottom:1px solid #fffdf733}
+.soon-item h3{font-size:30px;letter-spacing:-.035em;margin:0}
+.soon-item p{margin:6px 0 0;font-size:16px;line-height:1.45;max-width:560px;opacity:.85}
+.soon-item .cal-book{flex:none}
+@media(max-width:800px){.soon-item{display:block}.soon-item h3{font-size:26px}.soon-item .cal-book{display:inline-block;margin-top:12px}}
